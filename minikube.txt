@@ -1,0 +1,15 @@
+minikube stop
+minikube start --driver=docker
+kubectl create deployment mynginx --image=nginx
+kubectl expose deployment mynginx --type=NodePort --port=80
+kubectl scale deployment mynginx --replicas=4
+kubectl port-forward svc/mynginx 8081:80
+
+minikube dashboard (new powershell)
+[10:54 pm, 18/11/2025] Anirudh: docker pull jasonrivers/nagios:latest
+docker rm -f nagiosdemo
+docker run --name nagiosdemo -p 8091:80 jasonrivers/nagios:latest
+docker stop nagiosdemo
+docker docker rm nagiosdemo
+docker rmi jasonrivers/nagios
+docker rmi jasonrivers/nagios (in new power shell)
