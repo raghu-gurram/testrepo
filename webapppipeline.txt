@@ -1,0 +1,56 @@
+pipeline{
+    agent any
+    tools{
+        jdk 'JAVA_HOME'
+        maven 'MAVEN_HOME'
+    }
+    stages{
+        stage('git repo and clean'){
+            steps{
+            bat 'rmdir /s/q java_se_lab || exit 0'
+            bat 'git clone https://github.com/harshith-kulkarni/java_se_lab'
+            echo 'cloned repo'
+
+        }
+        }
+        stage('clean'){
+            steps{
+            dir('java_se_lab'){
+                bat 'mvn clean compile'
+
+            }
+            echo 'compiled'
+            }
+        }
+        stage('test'){
+            steps{
+                dir('java_se_lab'){
+                    bat 'mvn test '
+                }
+                echo 'tested'
+            }
+            
+        }
+        stage('package'){
+            steps{
+                dir('java_se_lab'){
+                    bat 'mvn package '
+                    archiveArtifacts 'target/*.jar'
+                }
+                  echo 'packaged'
+            }
+          
+        }
+    }
+    post{
+        always{
+            cleanWs()
+        }
+        success{
+            echo 'build done'
+        }
+        failure{
+            echo 'build failed'
+        }
+    }
+}
