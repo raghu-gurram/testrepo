@@ -1,0 +1,6 @@
+
+docker pull jsonrivers/nagios:latest
+
+docker run --name nagios-container -d -p 8080:80 jasonrivers/nagios
+
+docker start nagios-container
